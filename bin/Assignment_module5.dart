@@ -2,11 +2,11 @@ abstract class Role {
   void displayRole();
 }
 
-class Person implements Role{
+class Person {
   String name;
   int age;
   String address;
-  late Role role;
+  Role ? role;
 
   Person(this.name, this.age,this.address);
 
@@ -14,20 +14,19 @@ class Person implements Role{
   int get getAge => age;
   String get getAddress => address;
 
-  @override
-  void displayRole() {
+  void DisplayInfo() {
     print("Name: $name");
     print("Age: $age");
     print("Address: $address");
   }
 }
 
-class Student extends Person {
+class Student extends Person implements Role {
   late String studentID;
-  late String grade;
+  late double grade;
   late List<int> courseScores;
 
-  Student(super.name, super.age, super.address,this.courseScores);
+  Student(super.name, super.age, super.address, this.studentID,this.grade,this.courseScores);
 
   double calculateAverageScore() {
     double totalScore = 0;
@@ -41,40 +40,45 @@ class Student extends Person {
   @override
   void displayRole() {
     print("Role: Student");
-    super.displayRole();
-    print("Average Score: ${calculateAverageScore().toStringAsFixed(2)}");
   }
+  @override
+  void DisplayInfo() {
+    displayRole();
+    super.DisplayInfo();
+    print("Average Score: ${calculateAverageScore().toStringAsFixed(2)}");
+
+  }
+
 }
 
-class Teacher extends Person{
+class Teacher extends Person implements Role{
   late String teacherID;
   late List<String> coursesTaught;
 
-  Teacher(super.name, super.age, super.address,this.coursesTaught);
+  Teacher(super.name, super.age, super.address,this.teacherID,this.coursesTaught);
 
 
   void displayCoursesTaught() {
-    print("Courses Taught: $coursesTaught");
+    print("Courses Taught: \n- ${coursesTaught.join("\n- ")}");
   }
 
   @override
   void displayRole() {
-    print("\nTeacher Information: \nRole: Teacher");
-    super.displayRole();
+    print("Role: Teacher");
+  }
+  @override
+  void DisplayInfo() {
+    print("\nTeacher Information: ");
+    displayRole();
+    super.DisplayInfo();
     displayCoursesTaught();
   }
-
-}
-
-class StudentManagementSystem {
-
 }
 
 void main() {
-  Student std = Student("John Doe", 20, "123 Main St", [85, 90, 78, 92]);
-  std.displayRole();
+  Student student = Student("John Doe", 20, "123 Main St","20-4536-3",3.85, [85, 90, 78, 92]);
+  student.DisplayInfo();
 
-  Teacher teacher = Teacher("Mrs. Smith", 35, "456 Oak St.", ["Math", "English", "Bangla"]);
-  teacher.displayRole();
-
+  Teacher teacher = Teacher("Mrs. Smith", 35, "456 Oak St.","20-45361", ["Math", "English", "Bangla"]);
+  teacher.DisplayInfo();
 }
