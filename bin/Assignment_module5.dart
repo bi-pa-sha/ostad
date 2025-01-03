@@ -6,7 +6,7 @@ class Person {
   String name;
   int age;
   String address;
-  Role ? role;
+  Role  ? role;
 
   Person(this.name, this.age,this.address);
 
@@ -15,6 +15,7 @@ class Person {
   String get getAddress => address;
 
   void DisplayInfo() {
+    role?.displayRole();
     print("Name: $name");
     print("Age: $age");
     print("Address: $address");
